@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Proposal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="proposal-container" id="proposalContainer">
+        <!-- Initially Hidden Design Elements -->
+        <div class="design-elements" id="designElements" style="display: none;">
+            <div class="roses-container">
+                <div class="rose rose-1">🌹</div>
+                <div class="rose rose-2">🌹</div>
+                <div class="rose rose-3">🌹</div>
+                <div class="rose rose-4">🌹</div>
+                <div class="rose rose-5">🌹</div>
+                <div class="rose rose-6">🌹</div>
+                <div class="rose rose-7">🌹</div>
+                <div class="rose rose-8">🌹</div>
+            </div>
+
+            <div class="floating-images">
+                <img src="1.jpg" class="float-image float-1" alt="float1">
+                <img src="2.jpg" class="float-image float-2" alt="float2">
+                <img src="3.jpg" class="float-image float-3" alt="float3">
+                <img src="4.jpg" class="float-image float-4" alt="float4">
+                <img src="5.jpg" class="float-image float-5" alt="float5">
+                <img src="6.jpg" class="float-image float-6" alt="float6">
+                <img src="7.jpg" class="float-image float-7" alt="float7">
+                <img src="8.jpg" class="float-image float-8" alt="float8">
+            </div>
+
+            <div class="hearts-container" id="heartsContainer"></div>
+        </div>
+
+        <!-- Envelope Container -->
+        <div class="envelope-container" id="envelopeContainer">
+            <div class="envelope" id="envelope">
+                <div class="envelope-back"></div>
+                <div class="letter" id="letter">
+                    <div> Special Message Inside </div>
+                </div>
+                <div class="envelope-flap" id="envelopeFlap">
+                    <div class="envelope-heart"></div>
+                </div>
+                <div class="envelope-front"></div>
+                <div class="envelope-message">Happy Valentine's Day! 💝</div>
+            </div>
+        </div>
+
+        <!-- Main Proposal Content (Initially Hidden) -->
+        <div class="proposal-content" id="proposalContent" style="display: none;">
+            <div class="proposal-card" id="proposalCard">
+                <div class="message-section">
+                    <h1 class="greeting">Hi girlie!</h1>
+                    <p class="butterfly-message">I just want you to know life's been full of butterflies and It's because of you.</p>
+                    <p class="tap-hint">💕 Tap the screen for magic! 💕</p>
+                </div>
+
+                <div class="flashcards-container" id="flashcardsContainer">
+                    <div class="flashcard" id="flashcard1" style="display: none;">
+                        <p>You make waking up in themorning so special. ❤️</p>
+                    </div>
+                    
+                    <div class="flashcard" id="flashcard2" style="display: none;">
+                        <p class="message-2">Just by thinking of you makes my heart race!</p>
+                    </div>
+                    
+                    <div class="flashcard" id="flashcard3" style="display: none;">
+                        <div class="heart-container">
+                            <div class="pumping-heart">❤️</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="valentine-question" id="valentineQuestion" style="display: none;">
+                    <h2>Valentines is around the corner and I want to ask you thru this simple code!</h2>
+                    <h3>Will you be my Valentine?</h3>
+                    
+                    <div class="answer-buttons">
+                        <button class="btn yes-btn" id="yesBtn">Yes</button>
+                        <button class="btn no-btn" id="noBtn">No</button>
+                    </div>
+
+                    <div class="response" id="response"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tapCount = 0;
+        let envelopeOpened = false;
+        const proposalContainer = document.getElementById('proposalContainer');
+        const heartsContainer = document.getElementById('heartsContainer');
+        const flashcardsContainer = document.getElementById('flashcardsContainer');
+        const valentineQuestion = document.getElementById('valentineQuestion');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const response = document.getElementById('response');
+        const envelope = document.getElementById('envelope');
+        const envelopeFlap = document.getElementById('envelopeFlap');
+        const envelopeContainer = document.getElementById('envelopeContainer');
+        const proposalContent = document.getElementById('proposalContent');
+        const designElements = document.getElementById('designElements');
+        const letter = document.getElementById('letter');
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'popping-heart';
+            heart.innerHTML = ['💕', '💖', '💗', '💝', '❤️'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+
+        setInterval(createHeart, 500);
+
+        // Envelope click handler
+        envelope.addEventListener('click', function(e) {
+            if (!envelopeOpened) {
+                envelopeOpened = true;
+                envelope.classList.add('envelope-open');
+                envelopeFlap.classList.add('flap-open');
+                
+                // Slide letter out
+                setTimeout(() => {
+                    letter.classList.add('letter-slide-out');
+                }, 500);
+                
+                // Create celebration hearts
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        createHeart();
+                    }, i * 100);
+                }
+                
+                // Show design elements and proposal content after envelope animation
+                setTimeout(() => {
+                    designElements.style.display = 'block';
+                    designElements.classList.add('design-reveal');
+                    envelopeContainer.style.display = 'none';
+                    proposalContent.style.display = 'block';
+                    proposalContent.classList.add('content-reveal');
+                }, 2000);
+            }
+        });
+
+        proposalContainer.addEventListener('click', function(e) {
+            // Only handle proposal interactions after envelope is opened
+            if (!envelopeOpened) return;
+            
+            // Don't proceed if clicking on flashcard content
+            if (e.target.closest('.flashcard') || e.target.closest('.valentine-question')) return;
+            
+            tapCount++;
+            
+            // Create burst of hearts at click position
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const burstHeart = document.createElement('div');
+                    burstHeart.className = 'burst-heart';
+                    burstHeart.innerHTML = ['💕', '💖', '💗'][Math.floor(Math.random() * 3)];
+                    burstHeart.style.left = e.clientX + 'px';
+                    burstHeart.style.top = e.clientY + 'px';
+                    document.body.appendChild(burstHeart);
+                    
+                    setTimeout(() => {
+                        burstHeart.remove();
+                    }, 1000);
+                }, i * 100);
+            }
+
+            if (tapCount === 1) {
+                // Show first flashcard
+                flashcardsContainer.style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('flashcard1').style.display = 'block';
+                    document.getElementById('flashcard1').classList.add('show');
+                }, 300);
+            }
+        });
+
+        // Flashcard click handlers
+        document.getElementById('flashcard1').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('flashcard1').classList.remove('show');
+            document.getElementById('flashcard1').style.display = 'none';
+            document.getElementById('flashcard2').style.display = 'block';
+            document.getElementById('flashcard2').classList.add('show');
+            
+            // Create hearts for transition
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+        });
+
+        document.getElementById('flashcard2').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('flashcard2').classList.remove('show');
+            document.getElementById('flashcard2').style.display = 'none';
+            document.getElementById('flashcard3').style.display = 'block';
+            document.getElementById('flashcard3').classList.add('show');
+            
+            // Create hearts for transition
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+        });
+
+        document.getElementById('flashcard3').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('flashcard3').classList.remove('show');
+            document.getElementById('flashcard3').style.display = 'none';
+            valentineQuestion.style.display = 'block';
+            
+            // Create hearts for transition
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+        });
+
+        yesBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            response.innerHTML = '<div class="yes-response">It\'s a date! Thank You <3</div>';
+            
+            // Create heart fireworks explosion
+            createHeartFireworks();
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+        });
+
+        function createHeartFireworks() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            // Create multiple heart bursts in different directions
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const angle = (Math.PI * 2 * i) / 15;
+                    const distance = 100 + Math.random() * 200;
+                    const endX = centerX + Math.cos(angle) * distance;
+                    const endY = centerY + Math.sin(angle) * distance;
+                    
+                    // Create heart that explodes outward
+                    const fireworkHeart = document.createElement('div');
+                    fireworkHeart.className = 'firework-heart';
+                    fireworkHeart.innerHTML = ['💕', '💖', '💗', '💝', '❤️'][Math.floor(Math.random() * 5)];
+                    fireworkHeart.style.left = centerX + 'px';
+                    fireworkHeart.style.top = centerY + 'px';
+                    fireworkHeart.style.fontSize = (1.5 + Math.random() * 1.5) + 'em';
+                    fireworkHeart.style.position = 'fixed';
+                    fireworkHeart.style.zIndex = '1000';
+                    fireworkHeart.style.pointerEvents = 'none';
+                    document.body.appendChild(fireworkHeart);
+                    
+                    // Animate the heart exploding outward
+                    setTimeout(() => {
+                        fireworkHeart.style.transition = 'all 2s ease-out';
+                        fireworkHeart.style.left = endX + 'px';
+                        fireworkHeart.style.top = endY + 'px';
+                        fireworkHeart.style.opacity = '0';
+                        fireworkHeart.style.transform = 'scale(0.5)';
+                    }, 50);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        fireworkHeart.remove();
+                    }, 2500);
+                }, i * 100);
+            }
+        }
+
+        noBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            response.innerHTML = '<div class="no-response">give me 50 reasons why NO? HAHAHAHA btaw Okay fu :<div class="crying-emoji">😭</div></div>';
+            
+            // Create gloomy rain effect
+            createGloomyRain();
+        });
+
+        function createGloomyRain() {
+            // Create rain container
+            const rainContainer = document.createElement('div');
+            rainContainer.className = 'rain-container';
+            document.body.appendChild(rainContainer);
+            
+            // Create multiple rain drops
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const raindrop = document.createElement('div');
+                    raindrop.className = 'raindrop';
+                    raindrop.style.left = Math.random() * 100 + '%';
+                    raindrop.style.animationDelay = Math.random() * 2 + 's';
+                    raindrop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+                    rainContainer.appendChild(raindrop);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        raindrop.remove();
+                    }, 3000);
+                }, i * 50);
+            }
+            
+            // Remove rain container after all drops
+            setTimeout(() => {
+                rainContainer.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
